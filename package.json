@@ -1,0 +1,35 @@
+{
+  "name": "nyt-google-books-search",
+  "version": "1.0.0",
+  "description": "Full Stack React Express MongoDB Application for finding books using google API",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"node server.js\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NasimFekrat/nyt-google-books-search.git"
+  },
+  "keywords": [
+    "React",
+    "MongoDB",
+    "Express"
+  ],
+  "author": "Nasim Fekrat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NasimFekrat/nyt-google-books-search/issues"
+  },
+  "homepage": "https://github.com/NasimFekrat/nyt-google-books-search#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cors-express": "^0.2.2",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.17",
+    "morgan": "^1.9.1",
+    "node-sass": "^4.11.0",
+    "router": "^1.3.3"
+  },
+  "devDependencies": {}
+}

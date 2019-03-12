@@ -1,0 +1,15 @@
+#app-nav{
+    width: 100%;
+	padding-bottom: .5rem;
+	background: black;
+	font-size: 3rem;
+	color: white;
+}
+
+#app-nav span{
+    padding: 0 9%;
+}
+
+#app-nav a{
+    color: white;
+}

@@ -1,0 +1,29 @@
+div {
+    clear: both;
+
+  span {
+        padding: .6rem;
+        font: italic 1rem/1 $font1;
+        color: $primary-text-color;
+        &:nth-of-type(2) {
+            float: right;
+            margin-top: -.6rem;
+        }
+    }
+}
+hr {
+    width: 90%;
+}
+div:nth-of-type(2) {
+    min-height: 50px;
+    padding-top: 20px;
+}
+button,
+a {
+    @include buttons;				
+    margin: 1rem 0 1em 12.5%;
+    border-radius: 15px;
+    text-decoration: none;
+    padding: 1rem;
+}
+}
