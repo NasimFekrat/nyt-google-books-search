@@ -6,7 +6,6 @@ import Search from "./components/Search";
 import Books from "./components/Books";
 import BookList from "./components/BookList";
 import Highlight from "./components/Highlight";
-//import {openDb, deleteDb} from 'idb';
 import axios from 'axios';
 
 class App extends Component {
@@ -40,7 +39,7 @@ class App extends Component {
 
   // Get the results for the search terms entered
   fetchQuery() {
-    
+
     this.serverRequest = fetch('https://www.googleapis.com/books/v1/volumes?' + this.state.queryObject.type + this.state.queryObject.query)
       .then(response => response.json())
       .then((data) => {
@@ -121,40 +120,7 @@ class App extends Component {
       }).catch(err => {
         console.error(err);
       });
-
-    // Offline
-    // if (!window.navigator.onLine) 
-    //   setTimeout(function () { alert('You appear to be offline. Your books are still avaiable to you'); }, 1);
-    //   // open DB
-    //   const dbPromise = openDb('books', 1, upgradeDB => {
-    //     // Create an object store named weather if none exists
-    //     //eslint-disable-next-line	
-    //     let books = upgradeDB.createObjectStore('books');
-    //   }).catch(error => {
-    //     console.error('IndexedDB:', error);
-    //   });
-      //Get all the books
-      // dbPromise.then(db => {
-      //   return db.transaction('books')
-      //     .objectStore('books').getAll();
-      // }).then(allObjs => {
-      //   this.setState({
-      //     books: allObjs,
-      //     visibility: {
-      //       highlight: false,
-      //       booklist: false,
-      //       books: true
-      //     }
-      //   });
-      // });
-    }
-
-
-  
-
-  // componentWillUnmount() {
-  // 	this.serverRequest.abort();
-  // }
+  }
 
   // Set the current query in state on change
   updateQuery(queryObject) {
@@ -210,26 +176,8 @@ class App extends Component {
         booklist: false,
         books: true
       },
-    books: [...this.state.books, data]
+      books: [...this.state.books, data]
     });
-
-    // open DB
-    // const dbPromise = openDb('books', 1, upgradeDB => {
-    //   // Create an object store if none exists
-    //   //eslint-disable-next-line	
-    //   let books = upgradeDB.createObjectStore('books');
-    // }).catch(error => {
-    //   console.error('IndexedDB:', error);
-    // });
-
-    // Add Book to IDB
-    // dbPromise.then(db => {
-    //   let tx = db.transaction('books', 'readwrite');
-    //   let books = tx.objectStore('books', 'readwrite');
-    //   books.add(data, data.title);
-    // }).catch(error => {
-    //   console.error('IndexedDB:', error);
-    // });
 
     // Add Book to mongoDB
     axios.post('/api/books', data)
@@ -252,21 +200,7 @@ class App extends Component {
         books: true
       },
       books: [...remove]
-    }); 
-    // const dbPromise = openDb('books', 1, upgradeDB => {
-    //   // Create an object store named weather if none exists
-    //   //eslint-disable-next-line	
-    //   let books = upgradeDB.createObjectStore('books');
-    // }).catch(error => {
-    //   console.error('IndexedDB:', error);
-    // });
-    // dbPromise.then(db => {
-    //   let tx = db.transaction('books', 'readwrite');
-    //   let books = tx.objectStore('books', 'readwrite');
-    //   books.delete(data.title);
-    // }).catch(error => {
-    //   console.error('IndexedDB:', error);
-    // })
+    });
 
     axios.delete(`/api/books/${data._id}`, data)
       .then(function (res) {
@@ -294,9 +228,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">NYT Google Books App!</h1>
         </header>
-        
+
         <Menu setVisibility={this.updateVisibility}
-					  visibility={this.state.visibility} />
+          visibility={this.state.visibility} />
 
         <Search queryObject={this.updateQuery} />
 
@@ -306,15 +240,15 @@ class App extends Component {
           visibility={this.state.visibility}
           addBook={this.addBook}
           removeBook={this.removeBook} />
-
-        <BookList data={this.state.items}
+        
+          <BookList data={this.state.items}
           highlight={this.updateHighlight}
           visibility={this.state.visibility.booklist} />
 
-        <Books data={this.state.books}
+          <Books data={this.state.books}
           highlight={this.updateBookHighlight}
           visibility={this.state.visibility.books} />
-
+        
         <footer className="footer">
           <div className="container">
             <span className="text-muted">Copyright &copy; | <a href="https://github.com/NasimFekrat/nyt-google-books-search" onClick={this.handleClick}>GitHub Repo!</a></span>

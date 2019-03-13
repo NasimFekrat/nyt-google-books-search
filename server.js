@@ -41,9 +41,9 @@ app.use('/api', router);
 
 // Route for all records in collection
 router.route('/books')
-    // Add a favortie entry to the database
+    // Add a saved book entry to the database
     .post(function (req, res) {
-        console.log("we're here")
+        console.log("saving book")
         // Create an entry
         const books = new Books();
         books.title = req.body.title,

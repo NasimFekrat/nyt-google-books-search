@@ -1,5 +1,6 @@
 import React from "react";
 import "./BookRow.scss";
+import "./RowStyle.css";
 import PropTypes from 'prop-types';
 import { MdStarHalf } from 'react-icons/md/';
 import { MdStars } from 'react-icons/md/';
@@ -8,7 +9,7 @@ import Scroll from 'react-scroll';
 
 const BookRow = ({ rowNumber, title, author, rating, highlight }) => {
 
-    // Scroll to the top of UI when user selects an entry
+	// Scroll to the top of UI when user selects an entry
 	const click = () => {
 		highlight({
 			highlight: rowNumber
@@ -21,7 +22,7 @@ const BookRow = ({ rowNumber, title, author, rating, highlight }) => {
 		let stars = [];
 		// Use i to iterate through state array and j to assign unique key to each item
 		let i, j = 0;
-		if(rating) {
+		if (rating) {
 			for (i = 0; i < 5; i++) {
 				stars.push(<MdStars key={j} />);
 				j++;
@@ -34,19 +35,19 @@ const BookRow = ({ rowNumber, title, author, rating, highlight }) => {
 		if (i < rating) {
 			stars.splice(i, 1, <MdStarHalf key={j + 1} />);
 			j++;
-		}	
-			return stars;
+		}
+		return stars;
 	};
 
-	return(
-	<div onClick={click}>
+	return (
+		<div onClick={click} id="BookRow">
 			<span>{title}</span>
 			<span>{renderStars(rating)}</span>
-	</div>
+		</div>
 	)
 }
 
-BookRow.propTypes ={
+BookRow.propTypes = {
 	title: PropTypes.string,
 	author: PropTypes.string
 }

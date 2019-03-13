@@ -8,7 +8,7 @@ const Books = ({ data, highlight, visibility }) => {
     if (visibility) {
         return (
             <section id="books"
-							 aria-label="List of books added to saved">
+							 aria-label="List of books added to save in database">
 				{data.map((entry, i) =>
 					<BookRow key = {i}
 					         rowNumber = {i}
