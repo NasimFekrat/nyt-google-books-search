@@ -29,6 +29,7 @@ const Highlight = ({ data, visibility, addBook, removeBook }) => {
 	};
 
 	const addToBooks = () => {
+		console.log("Favouriting...");
 		addBook(data);
 	};
 

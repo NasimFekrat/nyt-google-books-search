@@ -6,7 +6,7 @@ import Search from "./components/Search";
 import Books from "./components/Books";
 import BookList from "./components/BookList";
 import Highlight from "./components/Highlight";
-import idb from 'idb';
+//import {openDb, deleteDb} from 'idb';
 import axios from 'axios';
 
 class App extends Component {
@@ -46,59 +46,59 @@ class App extends Component {
       .then((data) => {
         data.items.forEach((item, i) => {
           let element = {};
-          if (typeof item.volumeInfo.title != 'undefined') {
+          if (typeof item.volumeInfo.title !== 'undefined') {
             element.title = item.volumeInfo.title;
           } else {
             element.title = null;
           }
-          if (typeof item.volumeInfo.authors != 'undefined') {
+          if (typeof item.volumeInfo.authors !== 'undefined') {
             element.authors = item.volumeInfo.authors[0];
           } else {
             element.authors = null;
           }
-          if (typeof item.volumeInfo.averageRating != 'undefined') {
+          if (typeof item.volumeInfo.averageRating !== 'undefined') {
             element.rating = item.volumeInfo.averageRating;
           } else {
             element.rating = null;
           }
-          if (typeof item.volumeInfo.ratingsCount != 'undefined') {
+          if (typeof item.volumeInfo.ratingsCount !== 'undefined') {
             element.ratingsCount = item.volumeInfo.ratingsCount;
           } else {
             element.ratingsCount = null;
           }
-          if (typeof item.volumeInfo.publisher != 'undefined') {
+          if (typeof item.volumeInfo.publisher !== 'undefined') {
             element.publisher = item.volumeInfo.publisher;
           } else {
             element.publisher = null;
           }
-          if (typeof item.volumeInfo.publishedDate != 'undefined') {
+          if (typeof item.volumeInfo.publishedDate !== 'undefined') {
             element.publishedDate = item.volumeInfo.publishedDate;
           } else {
             element.publishedDate = null;
           }
-          if (typeof item.volumeInfo.description != 'undefined') {
+          if (typeof item.volumeInfo.description !== 'undefined') {
             element.description = item.volumeInfo.description;
           } else {
             element.description = null;
           }
-          if (typeof item.volumeInfo.imageLinks != 'undefined' &&
-            typeof item.volumeInfo.imageLinks.thumbnail != 'undefined') {
+          if (typeof item.volumeInfo.imageLinks !== 'undefined' &&
+            typeof item.volumeInfo.imageLinks.thumbnail !== 'undefined') {
             element.thumbnail = item.volumeInfo.imageLinks.thumbnail.replace(/http:/i, 'https:');
 
           } else {
             element.thumbnail = null;
           }
-          if (typeof item.saleInfo.listPrice != 'undefined') {
+          if (typeof item.saleInfo.listPrice !== 'undefined') {
             element.price = item.saleInfo.listPrice.amount;
           } else {
             element.price = null;
           }
-          if (typeof item.saleInfo.buyLink != 'undefined') {
+          if (typeof item.saleInfo.buyLink !== 'undefined') {
             element.purchase = item.saleInfo.buyLink;
           } else {
             element.price = null;
           }
-          if (typeof item.volumeInfo.description != 'undefined') {
+          if (typeof item.volumeInfo.description !== 'undefined') {
             element.description = item.volumeInfo.description;
           } else {
             element.description = null;
@@ -123,32 +123,34 @@ class App extends Component {
       });
 
     // Offline
-    if (!window.navigator.onLine) {
-      setTimeout(function () { alert('You appear to be offline. Your books are still avaiable to you'); }, 1);
-      // Open IDB
-      const dbPromise = idb.open('books', 1, upgradeDB => {
-        // Create an object store named weather if none exists
-        //eslint-disable-next-line	
-        let books = upgradeDB.createObjectStore('books');
-      }).catch(error => {
-        console.error('IndexedDB:', error);
-      });
+    // if (!window.navigator.onLine) 
+    //   setTimeout(function () { alert('You appear to be offline. Your books are still avaiable to you'); }, 1);
+    //   // open DB
+    //   const dbPromise = openDb('books', 1, upgradeDB => {
+    //     // Create an object store named weather if none exists
+    //     //eslint-disable-next-line	
+    //     let books = upgradeDB.createObjectStore('books');
+    //   }).catch(error => {
+    //     console.error('IndexedDB:', error);
+    //   });
       //Get all the books
-      dbPromise.then(db => {
-        return db.transaction('books')
-          .objectStore('books').getAll();
-      }).then(allObjs => {
-        this.setState({
-          books: allObjs,
-          visibility: {
-            highlight: false,
-            booklist: false,
-            books: true
-          }
-        });
-      });
+      // dbPromise.then(db => {
+      //   return db.transaction('books')
+      //     .objectStore('books').getAll();
+      // }).then(allObjs => {
+      //   this.setState({
+      //     books: allObjs,
+      //     visibility: {
+      //       highlight: false,
+      //       booklist: false,
+      //       books: true
+      //     }
+      //   });
+      // });
     }
-  }
+
+
+  
 
   // componentWillUnmount() {
   // 	this.serverRequest.abort();
@@ -199,6 +201,7 @@ class App extends Component {
   }
 
   addBook(data) {
+    console.log("Adding book... parent", data);
     // Add to state	
     this.setState({
       items: this.state.items.filter((item, i) => i !== this.state.highlight),
@@ -207,26 +210,26 @@ class App extends Component {
         booklist: false,
         books: true
       },
-      books: [...this.state.books, data]
+    books: [...this.state.books, data]
     });
 
-    // Open IDB
-    const dbPromise = idb.openDb('books', 1, upgradeDB => {
-      // Create an object store if none exists
-      //eslint-disable-next-line	
-      let books = upgradeDB.createObjectStore('books');
-    }).catch(error => {
-      console.error('IndexedDB:', error);
-    });
+    // open DB
+    // const dbPromise = openDb('books', 1, upgradeDB => {
+    //   // Create an object store if none exists
+    //   //eslint-disable-next-line	
+    //   let books = upgradeDB.createObjectStore('books');
+    // }).catch(error => {
+    //   console.error('IndexedDB:', error);
+    // });
 
     // Add Book to IDB
-    dbPromise.then(db => {
-      let tx = db.transaction('books', 'readwrite');
-      let books = tx.objectStore('books', 'readwrite');
-      books.add(data, data.title);
-    }).catch(error => {
-      console.error('IndexedDB:', error);
-    });
+    // dbPromise.then(db => {
+    //   let tx = db.transaction('books', 'readwrite');
+    //   let books = tx.objectStore('books', 'readwrite');
+    //   books.add(data, data.title);
+    // }).catch(error => {
+    //   console.error('IndexedDB:', error);
+    // });
 
     // Add Book to mongoDB
     axios.post('/api/books', data)
@@ -249,21 +252,21 @@ class App extends Component {
         books: true
       },
       books: [...remove]
-    });
-    const dbPromise = idb.open('books', 1, upgradeDB => {
-      // Create an object store named weather if none exists
-      //eslint-disable-next-line	
-      let books = upgradeDB.createObjectStore('books');
-    }).catch(error => {
-      console.error('IndexedDB:', error);
-    });
-    dbPromise.then(db => {
-      let tx = db.transaction('books', 'readwrite');
-      let books = tx.objectStore('books', 'readwrite');
-      books.delete(data.title);
-    }).catch(error => {
-      console.error('IndexedDB:', error);
-    })
+    }); 
+    // const dbPromise = openDb('books', 1, upgradeDB => {
+    //   // Create an object store named weather if none exists
+    //   //eslint-disable-next-line	
+    //   let books = upgradeDB.createObjectStore('books');
+    // }).catch(error => {
+    //   console.error('IndexedDB:', error);
+    // });
+    // dbPromise.then(db => {
+    //   let tx = db.transaction('books', 'readwrite');
+    //   let books = tx.objectStore('books', 'readwrite');
+    //   books.delete(data.title);
+    // }).catch(error => {
+    //   console.error('IndexedDB:', error);
+    // })
 
     axios.delete(`/api/books/${data._id}`, data)
       .then(function (res) {

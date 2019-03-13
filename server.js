@@ -85,15 +85,16 @@ router.route('/books/:id')
 
     // Remove a record permanently
     .delete(function (req, res) {
-        Books.remove({ _id: req.params.id }, function (err) {
+        Books.deleteOne({ _id: req.params.id }, function (err) {
             if (err) {
                 res.send(err);
             } else {
-                res.send("Record Removed");
+                console.log("successfully removed!", req.params.id);
             }
-        })
-        res.status(204).end();
-    })
+        }).then(function () {
+            res.status(204).end();
+        });
+    });
 
 // Start the API server
 app.listen(PORT, () => {
