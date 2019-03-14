@@ -26,9 +26,18 @@ app.use(cors(options));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Serve up static assets (usually on heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
 // Serve the UI over express server
 router.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, './client/public/'))
+    if (process.env.NODE_ENV === "production") {
+        res.sendFile(path.join(__dirname, "./client/build/index.html"));
+    } else {
+        res.sendFile(path.join(__dirname, './client/public/'));
+    }
 });
 
 //Initialize API
@@ -95,6 +104,12 @@ router.route('/books/:id')
             res.status(204).end();
         });
     });
+
+// Send every other request to the React app
+// Define any API routes before this runs
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 
 // Start the API server
 app.listen(PORT, () => {
