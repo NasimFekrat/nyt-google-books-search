@@ -4,7 +4,13 @@
   "description": "Full Stack React Express MongoDB Application for finding books using google API",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"node server.js\" \"cd client && npm start\""
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && npm install",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
