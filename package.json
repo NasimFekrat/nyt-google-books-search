@@ -4,7 +4,7 @@
   "description": "Full Stack React Express MongoDB Application for finding books using google API",
   "main": "index.js",
   "scripts": {
-    "start": "if [ $NODE_ENV == 'production' ]; then npm run start:prod; else npm run start:dev; fi",
+    "start": "if [ $NODE_ENV == \"production\" ]; then npm run start:prod; else npm run start:dev; fi",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
